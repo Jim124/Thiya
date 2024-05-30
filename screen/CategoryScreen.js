@@ -7,8 +7,8 @@ import CategoryItem from '../components/CategoryItem';
 //   );
 // }
 function CategoryScreen({ navigation }) {
-  function pressHandler() {
-    navigation.navigate('MealsOverview');
+  function pressHandler(id) {
+    navigation.navigate('MealsOverview', { categoryId: id });
   }
   return (
     <View>
@@ -19,6 +19,7 @@ function CategoryScreen({ navigation }) {
           <CategoryItem
             title={itemData.item.title}
             color={itemData.item.color}
+            id={itemData.item.id}
             onPress={pressHandler}
           />
         )}
