@@ -6,24 +6,31 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import { useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import { MEALS } from '../data/dummy-data';
 import MealDetail from '../components/MealDetail';
 import Subtitle from '../components/mealDetail/Subtitle';
 import List from '../components/mealDetail/List';
 import IconButton from '../components/IconButton';
+import { FavoritesContext } from '../store/context/favorite-context';
 function MealDetaiScreen({ route, navigation }) {
+  const favoriteMealsCtx = useContext(FavoritesContext);
   const id = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === id);
+  const isExisted = favoriteMealsCtx.ids.includes(id);
   function headButtonPressHandler() {
-    console.log('press button');
+    if (isExisted) {
+      favoriteMealsCtx.removeFavorite(id);
+    } else {
+      favoriteMealsCtx.addFavorite(id);
+    }
   }
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
           <IconButton
-            name='staro'
+            name={isExisted ? 'star' : 'staro'}
             color='white'
             onPress={headButtonPressHandler}
           />
