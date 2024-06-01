@@ -6,10 +6,10 @@ import MealList from '../components/mealList/MealList';
 function FavoriteScreen() {
   const favoritesMealsCtx = useContext(FavoritesContext);
   const items = MEALS.filter((meal) => favoritesMealsCtx.ids.includes(meal.id));
-  if (!items) {
+  if (items.length === 0) {
     return (
       <View style={styles.rootContainer}>
-        <Text>My favorite Screen</Text>
+        <Text style={styles.text}>You have no favorite meal yet!</Text>
       </View>
     );
   }
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: 'bold',
-    fontSize: 32,
+    fontSize: 18,
     textAlign: 'center',
+    color: 'white',
   },
 });
