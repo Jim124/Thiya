@@ -8,11 +8,11 @@ const favoriteSlice = createSlice({
   reducers: {
     addFavorite: (state, action) => {
       // state.ids.push(action.payload.id);
-      [...state.ids, action.payload.id];
+      state.ids = [...state.ids, action.payload.id];
     },
     removeFavorite: (state, action) => {
       // state.ids.splice(state.ids.indexOf(action.payload.id),1);
-      state.ids.filter((id) => id !== action.payload.id);
+      state.ids = state.ids.filter((id) => id !== action.payload.id);
     },
   },
 });

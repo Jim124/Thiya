@@ -6,23 +6,25 @@ import {
   ScrollView,
   Button,
 } from 'react-native';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { MEALS } from '../data/dummy-data';
 import MealDetail from '../components/MealDetail';
 import Subtitle from '../components/mealDetail/Subtitle';
 import List from '../components/mealDetail/List';
 import IconButton from '../components/IconButton';
-import { FavoritesContext } from '../store/context/favorite-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavorite, removeFavorite } from '../store/redux/favoriteSlice';
 function MealDetaiScreen({ route, navigation }) {
-  const favoriteMealsCtx = useContext(FavoritesContext);
+  const favoriteMealIds = useSelector((state) => state.favorite.ids);
   const id = route.params.mealId;
   const selectedMeal = MEALS.find((meal) => meal.id === id);
-  const isExisted = favoriteMealsCtx.ids.includes(id);
+  const isExisted = favoriteMealIds.includes(id);
+  const dispatch = useDispatch();
   function headButtonPressHandler() {
     if (isExisted) {
-      favoriteMealsCtx.removeFavorite(id);
+      dispatch(removeFavorite({ id: id }));
     } else {
-      favoriteMealsCtx.addFavorite(id);
+      dispatch(addFavorite({ id: id }));
     }
   }
   useLayoutEffect(() => {
