@@ -4,6 +4,7 @@ import IconButton from '../components/ui/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import Button from '../components/ui/Button';
 import { ExpensesContext } from '../store/expenses-context';
+import ExpenseForm from '../components/manageExpense/ExpenseForm';
 function ManageExpense({ route, navigation }) {
   const expenseCtx = useContext(ExpensesContext);
   const expenseId = route.params?.expenseId;
@@ -39,14 +40,11 @@ function ManageExpense({ route, navigation }) {
   }
   return (
     <View style={styles.container}>
-      <View style={styles.buttons}>
-        <Button style={styles.button} mode='flat' onPress={cancelHandler}>
-          Cancel
-        </Button>
-        <Button style={styles.button} onPress={confirmHandler}>
-          {isExisted ? 'Update' : 'Add'}
-        </Button>
-      </View>
+      <ExpenseForm
+        submitButtonLabel={isExisted ? 'Update' : 'Add'}
+        onCancel={cancelHandler}
+      />
+
       {isExisted && (
         <View style={styles.buttonContainer}>
           <IconButton
@@ -69,15 +67,7 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: GlobalStyles.colors.primary800,
   },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    minWidth: 150,
-    marginHorizontal: 8,
-  },
+
   buttonContainer: {
     marginTop: 16,
     paddingTop: 8,
