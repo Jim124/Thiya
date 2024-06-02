@@ -2,8 +2,12 @@ import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { GlobalStyles } from '../../constants/styles';
 import { getDateFormate } from '../../util/date';
 function ExpenseItem({ description, amount, date }) {
+  function expensePressHandler() {}
   return (
-    <Pressable>
+    <Pressable
+      style={({ pressed }) => pressed && styles.pressed}
+      onPress={expensePressHandler}
+    >
       <View style={styles.expenseItem}>
         <View>
           <Text style={[styles.textBase, styles.description]}>
@@ -55,5 +59,8 @@ const styles = StyleSheet.create({
   amount: {
     color: GlobalStyles.colors.primary500,
     fontWeight: 'bold',
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });

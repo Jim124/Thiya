@@ -7,10 +7,12 @@ import ManageExpense from './screens/ManageExpense';
 import RecentExpense from './screens/RecentExpenses';
 import { GlobalStyles } from './constants/styles';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import IconButton from './components/ui/IconButton';
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function BottomNavigator() {
+  function onPressHandler() {}
   return (
     <BottomTabs.Navigator
       screenOptions={{
@@ -18,6 +20,14 @@ function BottomNavigator() {
         headerTintColor: 'white',
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            color={tintColor}
+            size={24}
+            icon='plus'
+            onPress={onPressHandler}
+          />
+        ),
       }}
     >
       <BottomTabs.Screen
