@@ -31,7 +31,7 @@ function ExpenseForm({
     const dateIsValid = expenseData.date.toString() !== 'Invalid Date';
     const descriptionIsValid = expenseData.description.trim().length > 0;
     if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
-      Alert.alert('Invalid type', 'Please enter valid number', [
+      Alert.alert('Invalid input', 'Please Check your input values', [
         {
           text: 'Cancel',
           style: 'destructive',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'white',
-    marginVertical: 24,
+    marginVertical: 16,
   },
   inputRow: {
     flexDirection: 'row',
