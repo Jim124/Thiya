@@ -2,13 +2,15 @@ import { useContext, useLayoutEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import IconButton from '../components/ui/IconButton';
 import { GlobalStyles } from '../constants/styles';
-import Button from '../components/ui/Button';
 import { ExpensesContext } from '../store/expenses-context';
 import ExpenseForm from '../components/manageExpense/ExpenseForm';
 function ManageExpense({ route, navigation }) {
   const expenseCtx = useContext(ExpensesContext);
   const expenseId = route.params?.expenseId;
   const isExisted = !!expenseId;
+  const selectedExpense = expenseCtx.expenses.find(
+    (expense) => expense.id === expenseId
+  );
   useLayoutEffect(() => {
     navigation.setOptions({
       title: isExisted ? 'Edit Expense' : 'Add Expense',
@@ -22,19 +24,11 @@ function ManageExpense({ route, navigation }) {
   function cancelHandler() {
     navigation.goBack();
   }
-  function confirmHandler() {
+  function confirmHandler(expenseData) {
     if (isExisted) {
-      expenseCtx.updateExpense(expenseId, {
-        description: 'test update',
-        amount: 57.12,
-        date: new Date(),
-      });
+      expenseCtx.updateExpense(expenseId, expenseData);
     } else {
-      expenseCtx.addExpense({
-        description: 'test add',
-        amount: 12.33,
-        date: new Date(),
-      });
+      expenseCtx.addExpense(expenseData);
     }
     navigation.goBack();
   }
@@ -43,6 +37,8 @@ function ManageExpense({ route, navigation }) {
       <ExpenseForm
         submitButtonLabel={isExisted ? 'Update' : 'Add'}
         onCancel={cancelHandler}
+        onSubmit={confirmHandler}
+        defaultExpense={selectedExpense}
       />
 
       {isExisted && (
