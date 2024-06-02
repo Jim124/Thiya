@@ -12,10 +12,9 @@ const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function BottomNavigator() {
-  function onPressHandler() {}
   return (
     <BottomTabs.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: 'white',
         tabBarStyle: { backgroundColor: GlobalStyles.colors.primary500 },
@@ -25,10 +24,10 @@ function BottomNavigator() {
             color={tintColor}
             size={24}
             icon='plus'
-            onPress={onPressHandler}
+            onPress={() => navigation.navigate('ManageExpense')}
           />
         ),
-      }}
+      })}
     >
       <BottomTabs.Screen
         name='RecentExpenses'
@@ -64,9 +63,11 @@ export default function App() {
           <Stack.Screen
             name='ExpensesOverview'
             component={BottomNavigator}
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+            }}
           />
-          <Stack.Screen name='Manage Expense' component={ManageExpense} />
+          <Stack.Screen name='ManageExpense' component={ManageExpense} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
