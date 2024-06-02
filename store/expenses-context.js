@@ -66,7 +66,7 @@ function expenseReducer(state, action) {
       const updatedItem = { ...updatableExpense, ...action.payload.data };
       const updatedExpenses = [...state];
       updatedExpenses[updatableExpenseIndex] = updatedItem;
-      return updatableExpense;
+      return updatedExpenses;
     default:
       return state;
   }
@@ -87,7 +87,7 @@ function ExpenseContextProvider({ children }) {
     expenses: state,
     addExpense: addExpense,
     deleteExpense: deleteExpense,
-    updateExpense: deleteExpense,
+    updateExpense: updateExpense,
   };
   return (
     <ExpensesContext.Provider value={value}>
