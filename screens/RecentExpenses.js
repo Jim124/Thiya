@@ -9,12 +9,13 @@ function RecentExpenses() {
   useEffect(() => {
     async function getExpenseData() {
       const expenses = await fetchExpense();
+      expensesCtx.sendExpense(expenses);
     }
     getExpenseData();
   }, []);
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     const today = new Date();
-    const date7DaysAgo = getDateMinusDays(today, 3);
+    const date7DaysAgo = getDateMinusDays(today, 7);
     return expense.date >= date7DaysAgo && expense.date <= today;
   });
   return (
