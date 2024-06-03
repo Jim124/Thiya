@@ -6,9 +6,11 @@ import { ExpensesContext } from '../store/expenses-context';
 import ExpenseForm from '../components/manageExpense/ExpenseForm';
 import { deleteExpense, storeExpense, updateExpense } from '../util/http';
 import LoadingOverlay from '../components/ui/LoadingOverlay';
+import ErrorOverlay from '../components/ui/ErrorOverlay';
 
 function ManageExpense({ route, navigation }) {
   const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState(null);
   const expenseCtx = useContext(ExpensesContext);
   const expenseId = route.params?.expenseId;
   const isExisted = !!expenseId;
@@ -23,9 +25,14 @@ function ManageExpense({ route, navigation }) {
 
   async function deleteExpenseHandler() {
     setIsFetching(true);
-    await deleteExpense(expenseId);
-    expenseCtx.deleteExpense(expenseId);
-    navigation.goBack();
+    try {
+      await deleteExpense(expenseId);
+      expenseCtx.deleteExpense(expenseId);
+      navigation.goBack();
+    } catch (error) {
+      setError('Could not add expense, please try again later');
+      setIsFetching(false);
+    }
   }
 
   function cancelHandler() {
@@ -34,16 +41,24 @@ function ManageExpense({ route, navigation }) {
 
   async function confirmHandler(expenseData) {
     setIsFetching(true);
-    if (isExisted) {
-      expenseCtx.updateExpense(expenseId, expenseData);
-      await updateExpense(expenseId, expenseData);
-    } else {
-      const id = await storeExpense(expenseData);
-      expenseCtx.addExpense({ ...expenseData, id: id });
+    try {
+      if (isExisted) {
+        expenseCtx.updateExpense(expenseId, expenseData);
+        await updateExpense(expenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        expenseCtx.addExpense({ ...expenseData, id: id });
+      }
+      navigation.goBack();
+    } catch (error) {
+      setError('there was an error, please try again later');
+      setIsFetching(false);
     }
-    navigation.goBack();
   }
 
+  if (error && !isFetching) {
+    return <ErrorOverlay message={error} />;
+  }
   if (isFetching) {
     return <LoadingOverlay />;
   }

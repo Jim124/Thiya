@@ -36,6 +36,7 @@ function expenseReducer(state, action) {
 function ExpenseContextProvider({ children }) {
   // initialize data from Firebase
   const [state, dispatch] = useReducer(expenseReducer, []);
+
   function addExpense(expense) {
     dispatch({ type: 'ADD', payload: expense });
   }
