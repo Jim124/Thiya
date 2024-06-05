@@ -14,15 +14,17 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            headerStyle: { backgroundColor: Colors.primary100 },
-            headerTintColor: Colors.primary200,
-            contentStyle: { backgroundColor: Colors.accent500 },
+            headerStyle: { backgroundColor: Colors.primary500 },
+            headerTintColor: Colors.gray700,
+            contentStyle: { backgroundColor: Colors.gray700 },
+            headerBackTitle: 'Back',
           }}
         >
           <Stack.Screen
             name='AllPlaces'
             component={AllPlaces}
             options={({ navigation }) => ({
+              title: 'Your favorite Places',
               headerRight: ({ tintColor }) => (
                 <IconButton
                   icon='add'
@@ -33,7 +35,13 @@ export default function App() {
               ),
             })}
           />
-          <Stack.Screen name='Add a Place' component={AddPlace} />
+          <Stack.Screen
+            name='Add a Place'
+            component={AddPlace}
+            options={{
+              title: 'Add a New Place',
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
