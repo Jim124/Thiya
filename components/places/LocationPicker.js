@@ -4,15 +4,35 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from 'expo-location';
+import {
+  useNavigation,
+  useIsFocused,
+  useRoute,
+} from '@react-navigation/native';
 
 import OutlinedButton from '../ui/OutlinedButton';
 import Colors from '../../constants/colors';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import getMap from '../../util/google-map';
 function LocationPicker() {
   const [pickedLocation, setPickedLocation] = useState();
+
+  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
   const [locationPermissionInformation, requestPermission] =
     useForegroundPermissions();
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      const mapPickedLocation = {
+        lat: route.params.pickedLat,
+        route,
+        lng: route.params.pickedLng,
+      };
+      setPickedLocation(mapPickedLocation);
+    }
+  }, [isFocused, route]);
   // verify permission with ios or android
   async function verifyPermission() {
     if (
@@ -41,7 +61,9 @@ function LocationPicker() {
       lng: location.coords.longitude,
     });
   }
-  function pickOnMapHandler() {}
+  function pickOnMapHandler() {
+    navigation.navigate('Map');
+  }
 
   let mapPreview = <Text>No map taken yet</Text>;
   if (pickedLocation) {
