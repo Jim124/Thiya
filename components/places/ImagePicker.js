@@ -8,10 +8,11 @@ import {
 import Colors from '../../constants/colors';
 import OutlinedButton from '../ui/OutlinedButton';
 
-function ImagePicker() {
+function ImagePicker({ onTakeImage }) {
   const [pickedImage, setPickedImage] = useState('');
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions();
+
   // verify permission with ios
   async function verifyPermission() {
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
@@ -39,6 +40,7 @@ function ImagePicker() {
       quality: 0.5,
     });
     setPickedImage(image.assets[0].uri);
+    onTakeImage(image.assets[0].uri);
   }
 
   let imagePreview = <Text>No image taken yet.</Text>;

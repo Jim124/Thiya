@@ -9,12 +9,13 @@ import {
   useIsFocused,
   useRoute,
 } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
 
 import OutlinedButton from '../ui/OutlinedButton';
 import Colors from '../../constants/colors';
-import { useEffect, useState } from 'react';
-import getMap from '../../util/google-map';
-function LocationPicker() {
+import getMap, { getAddress } from '../../util/google-map';
+
+function LocationPicker({ onPickedLocation }) {
   const [pickedLocation, setPickedLocation] = useState();
 
   const navigation = useNavigation();
@@ -27,12 +28,25 @@ function LocationPicker() {
     if (isFocused && route.params) {
       const mapPickedLocation = {
         lat: route.params.pickedLat,
-        route,
         lng: route.params.pickedLng,
       };
       setPickedLocation(mapPickedLocation);
     }
   }, [isFocused, route]);
+
+  useEffect(() => {
+    async function getAddressByLocation() {
+      if (pickedLocation) {
+        const address = await getAddress(
+          pickedLocation.lat,
+          pickedLocation.lng
+        );
+        console.log(address);
+        onPickedLocation({ ...pickedLocation, address: address });
+      }
+    }
+    getAddressByLocation();
+  }, [pickedLocation, onPickedLocation]);
   // verify permission with ios or android
   async function verifyPermission() {
     if (

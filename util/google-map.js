@@ -5,4 +5,15 @@ function getMap(lat, lng) {
   markers=color:red%7Clabel:S%7C${lat},${lng}&key=${GOOGLE_API_KEY}`;
   return url;
 }
+export async function getAddress(lat, lng) {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_API_KEY}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.results[0].formatted_address;
+  } catch (error) {
+    throw new Error('get address error!');
+  }
+}
+
 export default getMap;
