@@ -1,5 +1,6 @@
 import { useIsFocused } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
+
 import PlacesList from '../components/places/PlacesList';
 
 function AllPlaces({ route }) {

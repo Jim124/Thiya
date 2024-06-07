@@ -14,6 +14,8 @@ function PlacesList({ places }) {
   }
   return (
     <FlatList
+      alwaysBounceVertical={false}
+      style={styles.listItem}
       data={places}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <PlaceItem place={item} />}
@@ -28,6 +30,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  listItem: {
+    padding: 24,
   },
   text: {
     fontWeight: 'bold',
