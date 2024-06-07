@@ -41,7 +41,7 @@ function LocationPicker({ onPickedLocation }) {
           pickedLocation.lat,
           pickedLocation.lng
         );
-        console.log(address);
+
         onPickedLocation({ ...pickedLocation, address: address });
       }
     }
