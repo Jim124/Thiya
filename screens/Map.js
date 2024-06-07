@@ -1,8 +1,9 @@
 import MapView, { Marker } from 'react-native-maps';
 import { View, StyleSheet, Alert } from 'react-native';
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
+
 import IconButton from '../components/ui/IconButton';
-import { init } from '../util/database';
 
 function Map({ navigation, route }) {
   const initialLocation = route.params && {
@@ -10,12 +11,17 @@ function Map({ navigation, route }) {
     lng: route.params.initLng,
   };
   const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+  const isFocused = useIsFocused();
   const region = {
     latitude: initialLocation ? initialLocation.lat : 37.78,
     longitude: initialLocation ? initialLocation.lng : -122.43,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
+
+  useEffect(() => {
+    console.log('isFocused:' + isFocused);
+  }, [isFocused]);
 
   const savePickedLocationHandler = useCallback(() => {
     if (!selectedLocation) {
