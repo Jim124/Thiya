@@ -11,6 +11,7 @@ import IconButton from './components/ui/IconButton';
 import Colors from './constants/colors';
 import Map from './screens/Map';
 import { init } from './util/database';
+import PlaceDetails from './screens/PlaceDetails';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -86,16 +87,12 @@ export default function App() {
   }, [appIsReady]);
 
   if (!appIsReady) {
-    return (
-      <View onLayout={onLayoutRootView}>
-        <Text>Please wait</Text>
-      </View>
-    );
+    return null;
   }
   return (
     <>
       <StatusBar style='auto' />
-      <NavigationContainer>
+      <NavigationContainer onReady={onLayoutRootView}>
         <Stack.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: Colors.primary500 },
@@ -127,6 +124,7 @@ export default function App() {
             }}
           />
           <Stack.Screen name='Map' component={Map} />
+          <Stack.Screen name='PlaceDetails' component={PlaceDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
